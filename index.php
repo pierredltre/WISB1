@@ -92,9 +92,19 @@ if (array_key_exists ("annee", $_GET)) {
   $req -> bindParam(":annee", $annee);
   $req -> execute();
   $films = $req;
+} else {
+  $req = $dbh -> query("SELECT * FROM film");
+  $films = $req;
 }
 
-else {
+// index.php?genre
+if (array_key_exists ("genre", $_GET)) {
+  $genre = $_GET["genre"];
+  $req = $dbh -> prepare("SELECT * FROM `film` INNER JOIN genre ON film.genre_id = genre.id WHERE genre.genre = $genre");
+  $req -> bindParam(":genre", $genre);
+  $req -> execute();
+  $films = $req;
+} else {
   $req = $dbh -> query("SELECT * FROM film");
   $films = $req;
 }
